@@ -1,6 +1,12 @@
-export class PlayerDAO{
+import { DAO } from "./mysql/DAO";
 
-    constructor(){}
+export class PlayerDAO extends DAO{ 
+
+    constructor(
+    ){
+        console.log('new playerDAO');
+        super();
+    }
     
 
 }

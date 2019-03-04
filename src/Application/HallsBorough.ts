@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import { IConfig } from '../Models/IConfig';
 import { Bot } from './Bot';
 import {Delegator} from '../Delegator/Delegator';
+import { PlayerDAO } from '../DAOs/PlayerDAO';
 const config = require('../Config/config.json');
 
 export class HallsBorough{
@@ -10,6 +11,8 @@ export class HallsBorough{
     private bot : Bot;
 
     private delegator : Delegator;
+
+    private playerDAO : PlayerDAO;
 
     constructor(){
         this.readConfig();
@@ -26,7 +29,7 @@ export class HallsBorough{
 
     
     private createDAOs() : void{
-
+        this.playerDAO = new PlayerDAO();
     }
 
     private createServices() : void{

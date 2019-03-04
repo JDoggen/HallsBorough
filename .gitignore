@@ -2,6 +2,7 @@
 app.js
 Config/
 out/
+mysql.json
 
 # Images
 *.jpeg
