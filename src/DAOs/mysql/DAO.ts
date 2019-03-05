@@ -1,5 +1,7 @@
 import * as mysql from 'mysql';
 import { IMySQLConfig } from '../../Models/IMySQLconfig';
+import * as q from 'q';
+
 const mysqlConfig = require('../mysql/mysql.json');
 
 export class DAO{
@@ -10,6 +12,22 @@ export class DAO{
         this.config = mysqlConfig as IMySQLConfig;
         this.connection = this.createConnection();
         this.connection.connect(this.connected);
+    }
+
+    public execute(query: string, parameters?: string[]){
+        let defer = q.defer();
+        let options : mysql.QueryOptions = {
+            sql: query,
+            values: parameters
+        }
+        this.connection.query(options, function(err, result){
+            console.log('err:');
+            console.log(err);
+            console.log('result:');
+            console.log(result);
+        });
+
+        return defer.promise;
     }
 
 
@@ -25,6 +43,7 @@ export class DAO{
     private connected(err: mysql.MysqlError){
         if(err){throw err}
         console.log('connected');
+        this.execute('SELECT * FROM ')
     }
 
     
