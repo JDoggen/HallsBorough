@@ -2,10 +2,11 @@ import * as mysql from 'mysql';
 import { IMySQLConfig } from '../../Models/IMySQLconfig';
 import * as q from 'q';
 
-const mysqlConfig = require('../mysql/mysql.json');
+const mysqlConfig = require('.././../Config/mysql.json');
 
 export class DAO{
-    private config : IMySQLConfig
+
+    protected config : IMySQLConfig
     private connection : mysql.Connection;
 
     constructor(){
@@ -13,23 +14,6 @@ export class DAO{
         this.connection = this.createConnection();
         this.connection.connect(this.connected);
     }
-
-    public execute(query: string, parameters?: string[]){
-        let defer = q.defer();
-        let options : mysql.QueryOptions = {
-            sql: query,
-            values: parameters
-        }
-        this.connection.query(options, function(err, result){
-            console.log('err:');
-            console.log(err);
-            console.log('result:');
-            console.log(result);
-        });
-
-        return defer.promise;
-    }
-
 
     private createConnection() : mysql.Connection{
         return mysql.createConnection({
@@ -42,9 +26,21 @@ export class DAO{
 
     private connected(err: mysql.MysqlError){
         if(err){throw err}
-        console.log('connected');
-        this.execute('SELECT * FROM ')
     }
+
+    public execute<T>(query: string, ...parameters: string[]) : q.Promise<T[]>{
+        let defer = q.defer<T[]>();
+
+        this.connection.query(query, parameters, function(err, result){
+            if(err){defer.reject(err)}
+            else{defer.resolve(result as T[])}
+        });
+
+        return defer.promise;
+    }
+
+
+
 
     
     
