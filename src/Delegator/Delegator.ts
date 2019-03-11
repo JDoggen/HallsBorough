@@ -42,7 +42,7 @@ export class Delegator{
                 if(messagePrefix === prefix){
                     content = content.substr(prefix.length); //Trim off prefix
                     content = content.trim();
-                    content = content.replace(/\s\s+/g, ' ');
+                    content = content.replace(/\s\s+/g, ' '); //Replace all whitespace with 1 space
                     let argumentList = content.split(' ');
                     let command;
                     if(argumentList [0]){
