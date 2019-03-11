@@ -71,5 +71,20 @@ export class GuildDAO extends DAO{
         })
         return defer.promise;
     }
+
+    public updatePrefix(guildid: string, prefix: string) : q.Promise<boolean>{
+        let defer = q.defer<boolean>();
+        let sql = `UPDATE ${this.config.database}.guilds `
+                    +`SET prefix = ?`
+                    +`WHERE guildid = ? `;
+        this.execute(sql, prefix, guildid )
+        .then(result =>{
+            defer.resolve(true)
+        })
+        .catch(err =>{
+            defer.reject(err);
+        })
+        return defer.promise;
+    }
 }
 

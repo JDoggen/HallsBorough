@@ -30,8 +30,11 @@ export class DAO{
 
     public execute<T>(query: string, ...parameters: string[]) : q.Promise<T[]>{
         let defer = q.defer<T[]>();
-
-        this.connection.query(query, parameters, function(err, result){
+        let queryOptions : mysql.QueryOptions = {
+            sql : query,
+            values: parameters            
+        }
+        this.connection.query(queryOptions, function(err, result){
             if(err){defer.reject(err)}
             else{defer.resolve(result as T[])}
         });

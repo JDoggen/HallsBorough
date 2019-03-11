@@ -56,7 +56,7 @@ export class HallsBorough{
     }
 
     private createControllers() : void{
-        this.guildController = new GuildController(this.guildService);
+        this.guildController = new GuildController(this.bot, this.guildService);
     }
 
     private createDelegator() : void{
